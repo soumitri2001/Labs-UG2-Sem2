@@ -44,4 +44,18 @@ class AccountManager {
     public AccountManager(int nos_acc) {
         this.bank_acc = new BankAccount[nos_acc];
     }
+
+    BankAccount createAccount(String ownerName, int accountNumber) {
+        return new BankAccount(ownerName, accountNumber);
+    }
+
+    void deleteAccount(BankAccount account) {
+        account = null;
+    }
+}
+
+class Bank {
+    public static void main(String[] args) {
+
+    }
 }
