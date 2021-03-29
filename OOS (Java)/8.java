@@ -15,4 +15,53 @@ class Book {
     private int num_pages;
     private double price;
 
+    public Book(String title, String publisher, String[] authors, int num_pages, double price) {
+        this.title = title;
+        this.publisher = publisher;
+        this.authors = authors;
+        this.num_pages = num_pages;
+        this.price = price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String[] getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(String[] authors) {
+        this.authors = authors;
+    }
+
+    public int getNum_pages() {
+        return num_pages;
+    }
+
+    public void setNum_pages(int num_pages) {
+        this.num_pages = num_pages;
+    }
+
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

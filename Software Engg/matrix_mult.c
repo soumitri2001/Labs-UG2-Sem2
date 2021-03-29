@@ -11,21 +11,21 @@
    INPUT    :   4 4 1
   
    OUTPUT   :   Matrix 1:
-                0 1 1 1
+                1 1 0 0
+                0 1 0 0
+                1 1 1 0
                 1 1 0 1
-                1 1 1 0
-                1 0 0 1
                 Matrix 2:
-                1 0 0 1
-                1 1 1 0
+                0 1 1 0
+                0 0 1 1
                 1 0 1 0
-                1 1 1 0
+                1 0 1 1
                 Matrix Product:
-                3 2 3 0
-                3 2 2 1
-                3 1 2 1
-                2 1 1 1
-                Time taken for the matrix multiplication using 4 threads =   0.000000 seconds
+                0 1 2 1
+                0 0 1 1
+                1 1 3 1
+                1 1 3 2
+                Time taken for the matrix multiplication using 4 threads = 0.001631 seconds
     
     
     COMPILE COMMAND   :  gcc matrix_mult.c -o matrix_mult -lpthread
@@ -39,7 +39,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <time.h>
+#include <sys/time.h>
 
 int thread; // stores current working thread that is incremented for every step
 
@@ -163,8 +163,12 @@ int main(int argc, char **argv)
 
     pthread_t thread_ids[num_cpus]; // creating array of thread IDs
 
-    // start clock for measuring time
-    clock_t since = clock();
+    // initialising variables for evaluating execution time
+    struct timeval start, end;
+    double time_taken;
+
+    // start timer
+    gettimeofday(&start, NULL);
 
     // loop over all threads for parallel processing
     for (int i = 0; i < num_cpus; i++)
@@ -180,8 +184,12 @@ int main(int argc, char **argv)
         pthread_join(thread_ids[i], NULL);
     }
 
-    // end clock for measuring time duration
-    clock_t end = clock();
+    // end timer
+    gettimeofday(&end, NULL);
+
+    // evaluate execution time
+    time_taken = (end.tv_sec - start.tv_sec) * 1e6;
+    time_taken += (end.tv_usec - start.tv_usec) * 1e-6;
 
     // if output flag equals 1, print all matrices
     if (flag == 1)
@@ -196,7 +204,6 @@ int main(int argc, char **argv)
         printMatrix(mat_struct->prod, mat_struct->dim);
     }
 
-    // print time duration of computation
-    float duration = (float)(end - since);
-    printf("Time taken for the matrix multiplication using %d threads = %6f seconds\n", num_cpus, (1.0 * duration / CLOCKS_PER_SEC));
+    // print execution time of code
+    printf("Time taken for the matrix multiplication using %d threads = %6f seconds\n", num_cpus, time_taken);
 }
