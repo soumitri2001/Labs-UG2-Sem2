@@ -46,11 +46,11 @@ int thread; // stores current working thread that is incremented for every step
 /* structure to hold the two matrices, their dimension, their product and nos of cpus */
 struct matrices
 {
-    int **mat1;   // first matrix
-    int **mat2;   // second matrix
-    int **prod;   // product matrix
-    int dim;      // dimension of square matrix
-    int num_cpus; // nos of cpus i.e. threads to be used by user
+    unsigned int **mat1; // first matrix
+    unsigned int **mat2; // second matrix
+    unsigned int **prod; // product matrix
+    int dim;             // dimension of square matrix
+    int num_cpus;        // nos of cpus i.e. threads to be used by user
 };
 
 typedef struct matrices matrices;
@@ -61,16 +61,16 @@ void initializeMatrices(matrices *mat_struct)
     int dim = mat_struct->dim;
 
     // dynamic memory allocation for the matrices
-    mat_struct->mat1 = (int **)malloc(dim * sizeof(int *));
-    mat_struct->mat2 = (int **)malloc(dim * sizeof(int *));
-    mat_struct->prod = (int **)malloc(dim * sizeof(int *));
+    mat_struct->mat1 = (unsigned int **)malloc(dim * sizeof(unsigned int *));
+    mat_struct->mat2 = (unsigned int **)malloc(dim * sizeof(unsigned int *));
+    mat_struct->prod = (unsigned int **)malloc(dim * sizeof(unsigned int *));
 
     for (int i = 0; i < dim; i++)
     {
         // dynamic memory allocation for each row of matrices
-        (mat_struct->mat1)[i] = (int *)malloc(dim * sizeof(int));
-        (mat_struct->mat2)[i] = (int *)malloc(dim * sizeof(int));
-        (mat_struct->prod)[i] = (int *)malloc(dim * sizeof(int));
+        (mat_struct->mat1)[i] = (unsigned int *)malloc(dim * sizeof(unsigned int));
+        (mat_struct->mat2)[i] = (unsigned int *)malloc(dim * sizeof(unsigned int));
+        (mat_struct->prod)[i] = (unsigned int *)malloc(dim * sizeof(unsigned int));
     }
 
     srand(time(0)); // setting seed for random number generation, the numbers will be different for every run of the program
@@ -116,7 +116,7 @@ void *matrixMult_thread(void *arg)
 }
 
 /* utility function to print matrix */
-void printMatrix(int **mat, int dim)
+void printMatrix(unsigned int **mat, int dim)
 {
     for (int i = 0; i < dim; i++)
     {
