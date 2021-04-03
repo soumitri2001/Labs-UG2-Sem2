@@ -9,7 +9,8 @@
  * all books.
  */
 
-class Book {
+class Book 
+{
     private String title, publisher;
     private String[] authors;
     private int num_pages;
