@@ -1,3 +1,5 @@
+import java.nio.channels.FileChannel.MapMode;
+
 /*
 5) Write a class “BankAccount” with the following instance variables:
 AccountNumber (an integer), balance a floating-point number), 
@@ -19,18 +21,34 @@ class BankAccount {
     {
         this.ownerName = ownerName;
         this.accountNumber = accountNumber;
-        this.balance = 0.0;
+        this.balance = 1000.0; // default base balance
     }
 
-    double getBalance() {
+    public void setOwner(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getOwner() {
+        return this.ownerName;
+    }
+
+    public void getAccNo(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public int getAccNo() {
+        return this.accountNumber;
+    }
+
+    public double getBalance() {
         return this.balance;
     }
 
-    void add(double amt) {
+    public void add(double amt) {
         this.balance += amt;
     }
 
-    void subtract(double amt) {
+    public void subtract(double amt) {
         if (amt > this.balance)
             System.out.println("Insufficient balance !");
         else
@@ -40,22 +58,114 @@ class BankAccount {
 
 class AccountManager {
     private BankAccount bank_acc[];
+    private int max_accs, idx;
 
     public AccountManager(int nos_acc) {
         this.bank_acc = new BankAccount[nos_acc];
+        max_accs = nos_acc;
+        idx = -1;
     }
 
-    BankAccount createAccount(String ownerName, int accountNumber) {
-        return new BankAccount(ownerName, accountNumber);
+    public void addAccount(BankAccount acc) {
+        if (idx == -1) {
+            // library is empty
+            bank_acc[++idx] = acc;
+            System.out.println("Account created successfully: " + acc.getOwner());
+        } else {
+            int flag = 0;
+            for (int i = 0; i <= idx; i++) {
+                if (bank_acc[i] == null) {
+                    bank_acc[i] = acc;
+                    flag = 1;
+                    System.out.println("Account created successfully: " + acc.getOwner());
+                    break;
+                }
+            }
+            if (flag == 0) {
+                // no intermediate space left
+                if (idx < max_accs - 1) {
+                    bank_acc[++idx] = acc;
+                    System.out.println("Account created successfully: " + acc.getOwner());
+                } else {
+                    // library is full
+                    System.out.println("No more accounts possible !");
+                }
+            }
+        }
     }
 
-    void deleteAccount(BankAccount account) {
-        account = null;
+    public void deleteAccount(String ownerName, int accountNumber) {
+        if (idx == -1) {
+            System.out.println("Bank has no accounts !");
+        } else {
+            int flag = 0;
+            for (int i = 0; i < max_accs; i++) {
+                if (bank_acc[i] != null && bank_acc[i].getAccNo() == accountNumber
+                        && bank_acc[i].getOwner().equalsIgnoreCase(ownerName)) {
+                    bank_acc[i] = null;
+                    flag = 1;
+                    System.out.println("Account deleted successfully: " + ownerName + " : " + accountNumber);
+                    break;
+                }
+            }
+            if (flag == 0) {
+                System.out.println("Account not found !");
+            }
+        }
+    }
+
+    public BankAccount getAccount(int idx) {
+        return bank_acc[idx];
     }
 }
 
 class Bank {
     public static void main(String[] args) {
+        BankAccount ba1 = new BankAccount("Rajesh Khanna", 10247886);
+        BankAccount ba2 = new BankAccount("Sachin Tendulkar", 10000451);
+        BankAccount ba3 = new BankAccount("Axar Patel", 10102453);
+        BankAccount ba4 = new BankAccount("Yuvraj Singh", 13345781);
+        BankAccount ba5 = new BankAccount("Ashish Nehra", 12081578);
+        BankAccount ba6 = new BankAccount("Yusuf Pathan", 13399696);
 
+        // transactions
+        ba1.add(450000);
+        ba2.add(17000);
+        ba3.subtract(400);
+        ba2.subtract(5000);
+        ba5.add(1500);
+        ba6.add(1400);
+        ba5.subtract(200);
+
+        AccountManager manager = new AccountManager(5);
+
+        manager.addAccount(ba1);
+        manager.addAccount(ba2);
+        manager.addAccount(ba3);
+        manager.addAccount(ba4);
+        manager.addAccount(ba5);
+
+        manager.deleteAccount("Axar Patel", 10102453);
+        manager.deleteAccount("MS Dhoni", 20072011); // account does not exist
+
+        manager.addAccount(ba6);
+
+        // print details of all accounts
+        System.out.println("\n\n");
+        for (int i = 0; i < 5; i++) {
+            BankAccount ba = manager.getAccount(i);
+            if (ba != null) {
+                // randomly add or subtract a random amount from each account
+                if ((int) Math.ceil(Math.random() * 10) % 2 == 0)
+                    ba.add(Math.random() * 1000.0);
+                else
+                    ba.subtract(Math.random() * 1000.0);
+                // print details
+                System.out.println("Name of a/c holder: " + ba.getOwner());
+                System.out.println("a/c number: " + ba.getAccNo());
+                System.out.println("Current Balance: " + ba.getBalance());
+                System.out.println("---------------------------------------------------------");
+            }
+        }
     }
 }
