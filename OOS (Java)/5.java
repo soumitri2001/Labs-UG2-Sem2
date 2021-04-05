@@ -1,5 +1,3 @@
-import java.nio.channels.FileChannel.MapMode;
-
 /*
 5) Write a class “BankAccount” with the following instance variables:
 AccountNumber (an integer), balance a floating-point number), 
