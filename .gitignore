@@ -1,4 +1,5 @@
 *.vscode/
+*.zip
 
 # Compiled class file
 *.class
