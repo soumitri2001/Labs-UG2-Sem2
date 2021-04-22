@@ -1,3 +1,15 @@
+/****************************************************************************************
+ * NAME: SOUMITRI CHATTOPADHYAY
+ * ROLL: 001911001083
+ * SUBJECT: COMPUTER NETWORKS LABORATORY (UG-2, SEM-2)
+ * ASSIGNMENT: CO-2 Assignment 1 - STREAM SOCKETS - CLIENT
+ ****************************************************************************************/
+
+/****************************************************************************************
+ * COMPILATION: gcc TCPClient.c -o TCPClient
+ * EXECUTION: ./TCPClient
+ ***************************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -7,14 +19,16 @@
 #include <netinet/in.h>
 #include <netdb.h>
 
+#define MAX_LEN 1024
+
+const int PORT = 9999;
+const char localhost[10] = "127.0.0.1";
+
 void error(const char *msg)
 {
     perror(msg);
     exit(1);
 }
-
-const int PORT = 9999;
-const char localhost[10] = "127.0.0.1";
 
 int main()
 {
@@ -22,23 +36,28 @@ int main()
     struct sockaddr_in serv_addr;
     struct hostent *server;
 
-    char buffer[256];
+    char buffer[MAX_LEN];
 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         error("Client socket cannot be created\n");
+
     server = gethostbyname(localhost);
+
+    printf("Server: %s\n", server->h_name);
     if (server == NULL)
     {
-        fprintf(stderr, "No such host found\n");
-        exit(0);
+        error("Server not found !\n");
     }
+
     bzero((char *)&serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr,
           (char *)&serv_addr.sin_addr.s_addr,
           server->h_length);
+
     serv_addr.sin_port = htons(PORT);
+
     if (connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
         error("Client connection error\n");
 
@@ -46,19 +65,29 @@ int main()
 
     while (1)
     {
-        bzero(buffer, 256);
-        printf("Client: ");
-        fgets(buffer, 255, stdin);
+        bzero(buffer, MAX_LEN);
+
+        printf("Client (enter 'EXIT' to exit): ");
+        fgets(buffer, MAX_LEN, stdin);
+
         int flag = write(sockfd, buffer, strlen(buffer));
         if (flag < 0)
             error("Write error\n");
-        bzero(buffer, 256);
-        flag = read(sockfd, buffer, 255);
+
+        if (strncmp("EXIT", buffer, 4) == 0)
+            break;
+
+        bzero(buffer, MAX_LEN);
+
+        printf("[Waiting for server to respond]\n");
+
+        flag = read(sockfd, buffer, MAX_LEN);
         if (flag < 0)
             error("Read error\n");
+
         printf("Server: %s\n", buffer);
-        int i = strncmp("Bye", buffer, 3);
-        if (i == 0)
+
+        if (strncmp("EXIT", buffer, 4) == 0)
             break;
     }
     close(sockfd);
