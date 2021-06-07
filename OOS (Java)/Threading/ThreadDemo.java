@@ -9,6 +9,7 @@ public class ThreadDemo {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -21,6 +22,7 @@ public class ThreadDemo {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -33,6 +35,7 @@ public class ThreadDemo {
         try {
             Thread.sleep(10);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         ob2.start();
     }

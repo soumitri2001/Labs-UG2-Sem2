@@ -10,6 +10,7 @@ public class ThreadsUsingRunnable {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -23,6 +24,7 @@ public class ThreadsUsingRunnable {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -40,6 +42,7 @@ public class ThreadsUsingRunnable {
         try {
             Thread.sleep(10);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         t2.start();
     }

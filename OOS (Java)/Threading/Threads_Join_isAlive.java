@@ -3,7 +3,8 @@ package Threading;
 public class Threads_Join_isAlive {
     public static void main(String[] args) throws Exception {
 
-        /* use of anonymous classes instead of creating separate classes */ Runnable ob1 = new Runnable() {
+        /* use of anonymous classes instead of creating separate classes */
+        Runnable ob1 = new Runnable() {
             @Override
             public void run() {
                 for (int i = 0; i < 5; i++) {
@@ -11,6 +12,7 @@ public class Threads_Join_isAlive {
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -24,6 +26,7 @@ public class Threads_Join_isAlive {
                     try {
                         Thread.sleep(1000);
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -56,6 +59,7 @@ public class Threads_Join_isAlive {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -66,6 +70,7 @@ public class Threads_Join_isAlive {
                 try {
                     Thread.sleep(1000);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -77,6 +82,7 @@ public class Threads_Join_isAlive {
         try {
             Thread.sleep(10);
         } catch (Exception e) {
+            e.printStackTrace();
         }
         t4.start();
 
