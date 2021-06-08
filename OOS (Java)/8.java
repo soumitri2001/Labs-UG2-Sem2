@@ -9,165 +9,166 @@
  * all books.
  */
 
-class Book {
-    private String title, publisher;
-    private String[] authors;
-    private int num_pages;
-    private double price;
-
-    public Book(String title, String publisher, String[] authors, int num_pages, double price) {
-        this.title = title;
-        this.publisher = publisher;
-        this.num_pages = num_pages;
-        this.price = price;
-        this.authors = new String[authors.length];
-        for (int i = 0; i < authors.length; i++) {
-            this.authors[i] = authors[i];
-        }
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String[] getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(String[] authors) {
-        this.authors = new String[authors.length];
-        for (int i = 0; i < authors.length; i++) {
-            this.authors[i] = authors[i];
-        }
-    }
-
-    public int getNum_pages() {
-        return num_pages;
-    }
-
-    public void setNum_pages(int num_pages) {
-        this.num_pages = num_pages;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getAuthorString() {
-        String auths = "";
-        for (String auth : this.getAuthors()) {
-            auths += auth;
-            auths += ",";
-        }
-        return auths.substring(0, auths.length() - 1);
-    }
-
-    public void printBookDetails() {
-        if (this != null) {
-            System.out.println("Title: " + this.getTitle());
-            System.out.println("Publisher: " + this.getPublisher());
-            System.out.println("Authors: " + this.getAuthorString());
-            System.out.println("Number of pages: " + this.getNum_pages());
-            System.out.println("Price: " + this.getPrice());
-        }
-    }
-}
-
-class Library {
-    private Book[] books;
-    private int idx, lim;
-
-    public Library(int num) {
-        lim = num;
-        idx = -1;
-        books = new Book[lim];
-    }
-
-    public void add(Book b) {
-        if (idx == -1) {
-            // library is empty
-            books[++idx] = b;
-            System.out.println("Book added successfully: " + b.getTitle());
-        } else {
-            int flag = 0;
-            for (int i = 0; i <= idx; i++) {
-                if (books[i] == null) {
-                    books[i] = b;
-                    flag = 1;
-                    System.out.println("Book added successfully: " + b.getTitle());
-                    break;
-                }
-            }
-            if (flag == 0) {
-                // no intermediate space left
-                if (idx < lim - 1) {
-                    books[++idx] = b;
-                    System.out.println("Book added successfully: " + b.getTitle());
-                } else {
-                    // library is full
-                    System.out.println("Library is full !");
-                }
-            }
-        }
-    }
-
-    public void delete(String title) {
-        if (idx == -1) {
-            System.out.println("Library is empty !");
-        } else {
-            int flag = 0;
-            for (int i = 0; i < lim; i++) {
-                if (books[i] != null && title.equalsIgnoreCase(books[i].getTitle())) {
-                    books[i] = null;
-                    flag = 1;
-                    System.out.println("Book deleted successfully: " + title);
-                    break;
-                }
-            }
-            if (flag == 0) {
-                System.out.println("Title not found !");
-            }
-        }
-    }
-
-    public void printLibrary() {
-        System.out.println("\n************************ LIBRARY ****************************");
-        for (int i = 0; i < this.lim; i++) {
-            if (this.books[i] != null) {
-                this.books[i].printBookDetails();
-                System.out.println();
-            }
-        }
-        System.out.println("************************************************************\n");
-    }
-
-    public double totalPriceLibrary() {
-        double tot = 0.0;
-        for (int i = 0; i < lim; i++) {
-            if (books[i] != null)
-                tot += books[i].getPrice();
-        }
-        return tot;
-    }
-}
-
 class Main_Q8 {
+
+    static class Book {
+        private String title, publisher;
+        private String[] authors;
+        private int num_pages;
+        private double price;
+
+        public Book(String title, String publisher, String[] authors, int num_pages, double price) {
+            this.title = title;
+            this.publisher = publisher;
+            this.num_pages = num_pages;
+            this.price = price;
+            this.authors = new String[authors.length];
+            for (int i = 0; i < authors.length; i++) {
+                this.authors[i] = authors[i];
+            }
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getPublisher() {
+            return publisher;
+        }
+
+        public void setPublisher(String publisher) {
+            this.publisher = publisher;
+        }
+
+        public String[] getAuthors() {
+            return authors;
+        }
+
+        public void setAuthors(String[] authors) {
+            this.authors = new String[authors.length];
+            for (int i = 0; i < authors.length; i++) {
+                this.authors[i] = authors[i];
+            }
+        }
+
+        public int getNum_pages() {
+            return num_pages;
+        }
+
+        public void setNum_pages(int num_pages) {
+            this.num_pages = num_pages;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
+
+        public String getAuthorString() {
+            String auths = "";
+            for (String auth : this.getAuthors()) {
+                auths += auth;
+                auths += ",";
+            }
+            return auths.substring(0, auths.length() - 1);
+        }
+
+        public void printBookDetails() {
+            if (this != null) {
+                System.out.println("Title: " + this.getTitle());
+                System.out.println("Publisher: " + this.getPublisher());
+                System.out.println("Authors: " + this.getAuthorString());
+                System.out.println("Number of pages: " + this.getNum_pages());
+                System.out.println("Price: " + this.getPrice());
+            }
+        }
+    }
+
+    static class Library {
+        private Book[] books;
+        private int idx, lim;
+
+        public Library(int num) {
+            lim = num;
+            idx = -1;
+            books = new Book[lim];
+        }
+
+        public void add(Book b) {
+            if (idx == -1) {
+                // library is empty
+                books[++idx] = b;
+                System.out.println("Book added successfully: " + b.getTitle());
+            } else {
+                int flag = 0;
+                for (int i = 0; i <= idx; i++) {
+                    if (books[i] == null) {
+                        books[i] = b;
+                        flag = 1;
+                        System.out.println("Book added successfully: " + b.getTitle());
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    // no intermediate space left
+                    if (idx < lim - 1) {
+                        books[++idx] = b;
+                        System.out.println("Book added successfully: " + b.getTitle());
+                    } else {
+                        // library is full
+                        System.out.println("Library is full !");
+                    }
+                }
+            }
+        }
+
+        public void delete(String title) {
+            if (idx == -1) {
+                System.out.println("Library is empty !");
+            } else {
+                int flag = 0;
+                for (int i = 0; i < lim; i++) {
+                    if (books[i] != null && title.equalsIgnoreCase(books[i].getTitle())) {
+                        books[i] = null;
+                        flag = 1;
+                        System.out.println("Book deleted successfully: " + title);
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    System.out.println("Title not found !");
+                }
+            }
+        }
+
+        public void printLibrary() {
+            System.out.println("\n************************ LIBRARY ****************************");
+            for (int i = 0; i < this.lim; i++) {
+                if (this.books[i] != null) {
+                    this.books[i].printBookDetails();
+                    System.out.println();
+                }
+            }
+            System.out.println("************************************************************\n");
+        }
+
+        public double totalPriceLibrary() {
+            double tot = 0.0;
+            for (int i = 0; i < lim; i++) {
+                if (books[i] != null)
+                    tot += books[i].getPrice();
+            }
+            return tot;
+        }
+    }
+
     public static void main(String[] args) {
         String a1[] = { "Silberschatz", "Korth", "Sudarshan" };
         String a2[] = { "Herbert", "Schildt" };
