@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /*
 10) Implement a class for a “Student”. Information about a student includes name, roll no and an
 array of five subject names. The class should have suitable constructor and get/set methods.
@@ -11,6 +9,8 @@ student. This class should have a method to add name of a student and marks in e
 Write a main() function to create three “Student” objects, Five “Tabulationsheet” objects for Five
 subjects and three “Marksheet” object for three students. Print the mark sheets.
 */
+
+import java.util.ArrayList;
 
 class Main_Q10 {
 
